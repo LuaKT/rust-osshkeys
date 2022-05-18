@@ -56,7 +56,7 @@ pub mod cipher;
 /// Containing the error type of this crate
 pub mod error;
 /// Serialize/Deserialize key files
-mod format;
+pub mod format;
 /// Representing different types of public/private keys
 pub mod keys;
 /// Extension to read/write ssh data type representations defined in [RFC 4251](https://tools.ietf.org/html/rfc4251#section-5)
