@@ -1,10 +1,10 @@
 use crate::error::*;
 use crate::keys::*;
 
-pub(crate) mod ossh_privkey;
-pub(crate) mod ossh_pubkey;
-pub(crate) mod pem;
-pub(crate) mod pkcs8;
+pub mod ossh_privkey;
+pub mod ossh_pubkey;
+pub mod pem;
+pub mod pkcs8;
 
 pub fn parse_keystr(pem: &[u8], passphrase: Option<&str>) -> OsshResult<KeyPair> {
     // HACK: Fix parsing problem of CRLF in nom_pem
