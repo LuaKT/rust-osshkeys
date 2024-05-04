@@ -1,7 +1,8 @@
 use crate::error::*;
 use crate::keys::{dsa::*, ecdsa::*, ed25519::*, rsa::*, PublicKey, PublicParts};
 use crate::sshbuf::{SshReadExt, SshWriteExt};
-use ed25519_dalek::PublicKey as Ed25519PubKey;
+use base64::prelude::*;
+use ed25519_dalek::VerifyingKey as Ed25519PubKey;
 use ed25519_dalek::PUBLIC_KEY_LENGTH;
 use openssl::bn::BigNumContext;
 use openssl::dsa::DsaRef;
@@ -17,7 +18,7 @@ pub fn parse_ossh_pubkey(keystr: &str) -> OsshResult<PublicKey> {
     if key_split.len() < 2 || key_split.len() > 3 {
         return Err(ErrorKind::InvalidKeyFormat.into());
     }
-    let blob = base64::decode(key_split[1])?;
+    let blob = BASE64_STANDARD.decode(key_split[1])?;
     let mut pubkey: PublicKey = match key_split[0] {
         RSA_NAME | RSA_SHA256_NAME | RSA_SHA512_NAME => {
             let mut rsa = decode_rsa_pubkey(&blob)?;
@@ -105,7 +106,7 @@ pub fn serialize_ossh_pubkey(key: &dyn PublicParts, comment: &str) -> OsshResult
         &mut keystr,
         "{} {}",
         key.keyname(),
-        base64::encode(&key.blob()?)
+        BASE64_STANDARD.encode(key.blob()?)
     )?;
     if !comment.is_empty() {
         write!(&mut keystr, " {}", comment)?;

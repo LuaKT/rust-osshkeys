@@ -1,10 +1,10 @@
 [package]
 name = "osshkeys"
 description = "A library to read and write OpenSSH public and private keys"
-version = "0.6.1"
+version = "0.7.0"
 authors = ["Leo <leo881003@gmail.com>"]
 edition = "2021"
-rust-version = "1.57.0"
+rust-version = "1.63.0"
 keywords = ["ssh", "ssh-keys", "keys", "openssh"]
 repository = "https://github.com/Leo1003/rust-osshkeys"
 license = "MIT"
@@ -23,22 +23,25 @@ rustcrypto-cipher = ["cbc", "ctr", "aes", "des", "cipher"]
 
 openssl-vendored = ["openssl/vendored"]
 
+# Internal use for experimental codes
+experimental = []
+
 [dependencies]
-base64 = "0.13.0"
+base64 = "0.21.0"
 byteorder = "1.4.3"
 openssl = "0.10.30"
-# Upgrade to 0.8.x is blocked by ed25519-dalek
-rand = "0.7.2"
-ed25519-dalek = "1.0.0"
+rand = "0.8.5"
+ed25519-dalek = { version = "2.0.0-rc.2", features = ["rand_core"] }
 zeroize = "1.1.0"
 log = "0.4.8"
 backtrace = "0.3.46"
-nom_pem = "4.0.0"
+pem = "2.0.1"
+regex = "1.8.3"
 digest = "0.10.2"
 md-5 = "0.10.0"
 sha-1 = "0.10.0"
 sha2 = "0.10.1"
-bcrypt-pbkdf = "0.9.0"
+bcrypt-pbkdf = "0.10.0"
 cryptovec = "0.6.1"
 
 # Feature `rustcrypto-cipher` dependencies
@@ -50,5 +53,5 @@ des = { version = "0.8.0", optional = true }
 
 [dev-dependencies]
 hex = "0.4.0"
-hex-literal = "0.3.1"
+hex-literal = "0.4.1"
 cfg-if = "1.0.0"
